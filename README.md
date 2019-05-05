@@ -1,10 +1,10 @@
 # Live2d_cocos
 cocos2dx 接入live2d
+
     local model = Live2DModel:create("Haru/Haru.model3.json")
     self:addChild(model)
     model:setPosition(cc.p(display.center))
     model:setScale(1)
-
     model:addClickTouchEvent( function(touch, eventType)
         local pos = touch:getLocationInView()
         local delta = touch:getDelta()
