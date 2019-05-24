@@ -41,7 +41,82 @@ int lua_Live2DModel_addClickTouchEvent(lua_State* L)
 	return 0;
 }
 
+int lua_Live2DModel_StartMotion(lua_State* L)
+{
+	int argc = 0;
+	Live2DModel* cobj = nullptr;
+	bool ok = true;
 
+#if COCOS2D_DEBUG >= 1
+	tolua_Error tolua_err;
+#endif
+
+
+#if COCOS2D_DEBUG >= 1
+	if (!tolua_isusertype(L, 1, "Live2DModel", 0, &tolua_err)) goto tolua_lerror;
+#endif
+
+	cobj = static_cast<Live2DModel*>(tolua_tousertype(L, 1, 0));
+
+#if COCOS2D_DEBUG >= 1
+	if (!cobj)
+	{
+		tolua_error(L, "invalid 'cobj' in function 'lua_Live2DModel_StartMotion'", nullptr);
+		return 0;
+	}
+#endif
+
+	argc = lua_gettop(L) - 1;
+	if (argc == 5)
+	{
+		const char* arg0;
+		int arg1;
+		int arg2;
+		std::function<void()> arg3;
+		bool arg4;
+
+		std::string arg0_tmp; 
+
+		ok &= luaval_to_std_string(L, 2, &arg0_tmp, "Live2DModel:StartMotion"); 
+		arg0 = arg0_tmp.c_str();
+
+		ok &= luaval_to_int32(L, 3, (int *)&arg1, "Live2DModel:StartMotion");
+
+		
+
+		ok &= luaval_to_int32(L, 4, (int *)&arg2, "Live2DModel:StartMotion");
+
+		LUA_FUNCTION handler = (toluafix_ref_function(L, 5, 0));
+
+		ok &= luaval_to_boolean(L, 6,&arg4, "Live2DModel:StartMotion");
+
+		if (!ok)
+		{
+			tolua_error(L, "invalid arguments in function 'lua_Live2DModel_StartMotion'", nullptr);
+			return 0;
+		}
+		cobj->setAniFinishLuaFunc([=]() {
+
+			LuaStack* stack = LuaEngine::getInstance()->getLuaStack();
+			/*stack->pushObject(touches, "cc.Touch");
+			stack->pushInt(eventType);*/
+			stack->executeFunctionByHandler(handler, 02);
+			stack->clean(); });
+
+		cobj->StartMotion(arg0, arg1, arg2, arg3,arg4);
+		lua_settop(L, 1);
+		return 1;
+	}
+	luaL_error(L, "%s has wrong number of arguments: %d, was expecting %d \n", "Live2DModel:StartMotion", argc, 3);
+	return 0;
+
+#if COCOS2D_DEBUG >= 1
+	tolua_lerror:
+				tolua_error(L, "#ferror in function 'lua_Live2DModel_StartMotion'.", &tolua_err);
+#endif
+
+				return 0;
+}
 int lua_Live2DModel_StartRandomMotion(lua_State* L)
 {
 	int argc = 0;
@@ -90,7 +165,7 @@ int lua_Live2DModel_StartRandomMotion(lua_State* L)
 			LuaStack* stack = LuaEngine::getInstance()->getLuaStack();
 			/*stack->pushObject(touches, "cc.Touch");
 			stack->pushInt(eventType);*/
-			stack->executeFunctionByHandler(handler,02);
+			stack->executeFunctionByHandler(handler,0);
 			stack->clean(); });
 
 		cobj->StartRandomMotion(arg0, arg1, arg2);
@@ -114,6 +189,7 @@ int lua_register_Live2DModel_manual(lua_State* L) {
 	tolua_beginmodule(L, "Live2DModel");
 	tolua_function(L, "addClickTouchEvent", lua_Live2DModel_addClickTouchEvent);
 	tolua_function(L, "StartRandomMotion", lua_Live2DModel_StartRandomMotion);
+	tolua_function(L, "StartMotion", lua_Live2DModel_StartMotion);
 	tolua_endmodule(L);
 	std::string typeName = typeid(Live2DModel).name();
 	g_luaType[typeName] = "Live2DModel";

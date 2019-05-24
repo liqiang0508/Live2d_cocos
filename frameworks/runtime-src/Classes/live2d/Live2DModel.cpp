@@ -94,7 +94,30 @@ void Live2DModel::onEnter()
 	this->setContentSize(s);
 	this->ignoreAnchorPointForPosition(false);
 	this->setAnchorPoint(Vec2(0.5, 0.5));
+
+	this->scheduleUpdate();
 	
+
+}
+
+void Live2DModel::update(float t) {
+
+	if (_model->AniIsFinish())
+	{
+		if (m_AniLoop)
+		{
+			/*this->runAction(Sequence::create(DelayTime::create(5), CallFunc::create([=]() {
+				StartMotion(m_CurAniGroup.c_str(), m_CurAniNum, PriorityNormal, m_AniLoop);
+			}), nullptr));*/
+
+			/*return;*/
+		}
+		if (m_AniEndCall)
+		{
+			m_AniEndCall();
+			m_AniEndCall = nullptr;
+		}
+	}
 
 }
 
@@ -200,19 +223,8 @@ void Live2DModel::onDraw(const cocos2d::Mat4& transform, uint32_t flags)
 		drawDebugRects();
 	}
 	
-	if (_model->AniIsFinish())
-	{
-		if (m_AniLoop)
-		{
-			StartMotion(m_CurAniGroup.c_str(),m_CurAniNum, PriorityNormal,m_AniLoop);
-			return;
-		}
-		if (m_AniEndCall)
-		{
-			m_AniEndCall();
-			m_AniEndCall = nullptr;
-		}
-	}
+	
+
 	Director::getInstance()->popMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
 	
 }
@@ -298,12 +310,12 @@ void Live2DModel::setAniFinishLuaFunc(const std::function<void()> &endcall)
 {
 	m_AniEndCall = endcall;
 }
-void Live2DModel::StartMotion(const csmChar* group, csmInt32 no,csmInt32 priority, bool loop)
+void Live2DModel::StartMotion(const csmChar* group, csmInt32 no, csmInt32 priority, std::function<void()> &endcall, bool loop)
 {
 	m_AniLoop = loop;
 	m_CurAniGroup = group;
 	m_CurAniNum = no;
-	_model->StartMotion(group,no, priority);
+	_model->StartMotion(group,no, PriorityForce);
 	
 	
 }

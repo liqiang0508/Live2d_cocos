@@ -825,7 +825,7 @@ int lua_Live2DModel_Live2DModel_StartMotion(lua_State* tolua_S)
             tolua_error(tolua_S,"invalid arguments in function 'lua_Live2DModel_Live2DModel_StartMotion'", nullptr);
             return 0;
         }
-        cobj->StartMotion(arg0, arg1, arg2);
+        //cobj->StartMotion(arg0, arg1, arg2);
         lua_settop(tolua_S, 1);
         return 1;
     }
@@ -843,12 +843,14 @@ int lua_Live2DModel_Live2DModel_StartMotion(lua_State* tolua_S)
         ok &= luaval_to_int32(tolua_S, 4,(int *)&arg2, "Live2DModel:StartMotion");
 
         ok &= luaval_to_boolean(tolua_S, 5,&arg3, "Live2DModel:StartMotion");
+
+
         if(!ok)
         {
             tolua_error(tolua_S,"invalid arguments in function 'lua_Live2DModel_Live2DModel_StartMotion'", nullptr);
             return 0;
         }
-        cobj->StartMotion(arg0, arg1, arg2, arg3);
+        //cobj->StartMotion(arg0, arg1, arg2, arg3);
         lua_settop(tolua_S, 1);
         return 1;
     }
@@ -1413,7 +1415,7 @@ int lua_register_Live2DModel_Live2DModel(lua_State* tolua_S)
         tolua_function(tolua_S,"onDraw",lua_Live2DModel_Live2DModel_onDraw);
         tolua_function(tolua_S,"SetExpression",lua_Live2DModel_Live2DModel_SetExpression);
         tolua_function(tolua_S,"OnTap",lua_Live2DModel_Live2DModel_OnTap);
-        tolua_function(tolua_S,"StartMotion",lua_Live2DModel_Live2DModel_StartMotion);
+        //tolua_function(tolua_S,"StartMotion",lua_Live2DModel_Live2DModel_StartMotion);
         tolua_function(tolua_S,"LoadAssets",lua_Live2DModel_Live2DModel_LoadAssets);
         tolua_function(tolua_S,"SetTouchEnable",lua_Live2DModel_Live2DModel_SetTouchEnable);
         tolua_function(tolua_S,"transformScreenX",lua_Live2DModel_Live2DModel_transformScreenX);

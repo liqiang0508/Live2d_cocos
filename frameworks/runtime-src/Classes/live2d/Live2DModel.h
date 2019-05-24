@@ -35,7 +35,7 @@ public:
 
 	virtual void onEnter();
 	virtual void onExit();
-
+	void update(float t);
 	virtual void draw(cocos2d::Renderer* renderer, const cocos2d::Mat4& transform, uint32_t flags);
 	virtual void onDraw(const cocos2d::Mat4& transform, uint32_t flags);
 
@@ -62,7 +62,7 @@ public:
 	void OnDrag(Csm::csmFloat32 x, Csm::csmFloat32 y) ;
 
 	void StartRandomMotion(const csmChar* group, csmInt32 priority, std::function<void()> &endcall);
-	void StartMotion(const csmChar* group, csmInt32 no,csmInt32 priority, bool loop = false);
+	void StartMotion(const csmChar* group, csmInt32 no,csmInt32 priority, std::function<void()> &endcall ,bool loop = false);
 
 	void setOpcaity(float f);
 	void setModelColor(const Color4B& color);

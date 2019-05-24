@@ -361,7 +361,7 @@ void LAppModel::Update()
     if (_motionManager->IsFinished())
     {
         // モーションの再生がない場合、待機モーションの中からランダムで再生する
-        //StartRandomMotion(MotionGroupIdle, PriorityIdle);
+       // StartRandomMotion(MotionGroupIdle, PriorityIdle);
     }
     else
     {
@@ -433,13 +433,13 @@ void LAppModel::Update()
 
 CubismMotionQueueEntryHandle LAppModel::StartMotion(const csmChar* group, csmInt32 no, csmInt32 priority)
 {
-    if (priority == PriorityForce)
+   if (priority == PriorityForce)
     {
         _motionManager->SetReservePriority(priority);
     }
     else if (!_motionManager->ReserveMotion(priority))
     {
-        if (_debugMode) LAppPal::PrintLog("[APP]can't start motion %s.", group);
+        if (_debugMode) LAppPal::PrintLog("[APP]can't start motion %s_%d", group, no);
         return InvalidMotionQueueEntryHandleValue;
     }
 
