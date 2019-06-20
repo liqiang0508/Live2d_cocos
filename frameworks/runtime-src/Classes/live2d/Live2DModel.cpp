@@ -16,7 +16,7 @@ using namespace LAppDefine;
 USING_NS_CC;
 
 Live2DModel::Live2DModel() : Node()
-, _debugRects(NULL), _model(nullptr), listener(nullptr), _TouchCall(nullptr), m_AniLoop(false), m_AniEndCall(nullptr)
+, _debugRects(NULL), _model(nullptr), listener(nullptr), _TouchCall(nullptr), m_AniLoop(false), m_AniEndCall(nullptr), m_AniPlaying(false)
 {
 	assert(CubismFramework::IsStarted());
 
@@ -106,15 +106,24 @@ void Live2DModel::update(float t) {
 	{
 		if (m_AniLoop)
 		{
-			/*this->runAction(Sequence::create(DelayTime::create(5), CallFunc::create([=]() {
-				StartMotion(m_CurAniGroup.c_str(), m_CurAniNum, PriorityNormal, m_AniLoop);
+			/*	this->runAction(Sequence::create(DelayTime::create(5), CallFunc::create([=]() {
+				StartMotion(m_CurAniGroup.c_str(), m_CurAniNum, PriorityNormal, m_AniEndCall, m_AniLoop);
 			}), nullptr));*/
+			StartMotion(m_CurAniGroup.c_str(), m_CurAniNum, PriorityNormal, m_AniEndCall, m_AniLoop);
 
-			/*return;*/
+				if (m_AniEndCall)
+				{
+					m_AniEndCall();
+					m_AniPlaying = false;
+					
+				}
+				return;
 		}
+
 		if (m_AniEndCall)
 		{
 			m_AniEndCall();
+			m_AniPlaying = false;
 			m_AniEndCall = nullptr;
 		}
 	}
@@ -312,10 +321,11 @@ void Live2DModel::setAniFinishLuaFunc(const std::function<void()> &endcall)
 }
 void Live2DModel::StartMotion(const csmChar* group, csmInt32 no, csmInt32 priority, std::function<void()> &endcall, bool loop)
 {
+	m_AniPlaying = true;
 	m_AniLoop = loop;
 	m_CurAniGroup = group;
 	m_CurAniNum = no;
-	_model->StartMotion(group,no, PriorityForce);
+	_model->StartMotion(group,no, priority);
 	
 	
 }

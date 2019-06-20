@@ -26,9 +26,9 @@ function MainScene:onCreate()
             model:OnDrag(pos.x, pos.y)
         elseif eventType == cc.EventCode.ENDED then
             print("touch ENDED")
-                    model:StartMotion("Idle", 0, 3, function()
-                    print("end**")
-                    end,false)
+                    model:StartMotion("Poker", 0,3, function()
+                         print("end**")
+                   end,true)
             if model:HitTest("Body", pos.x, pos.y) then
                 print("hit body")
                -- model:StartRandomMotion("TapBody", 3, function() print("ani is over") end)
@@ -42,8 +42,10 @@ function MainScene:onCreate()
         end
     end )
 
-
-  
+     model:StartMotion("Idle", 0, 1, function()
+                         print("idle end**")
+                   end,true)
+  print("222222111111")
   
 
 end

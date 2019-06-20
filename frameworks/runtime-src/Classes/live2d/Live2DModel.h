@@ -61,7 +61,7 @@ public:
 	void OnTap(csmFloat32 x, csmFloat32 y);
 	void OnDrag(Csm::csmFloat32 x, Csm::csmFloat32 y) ;
 
-	void StartRandomMotion(const csmChar* group, csmInt32 priority, std::function<void()> &endcall);
+	void StartRandomMotion(const csmChar* group, csmInt32 priority, std::function<void()> &endcall);//随机播放群组里面的一个动画
 	void StartMotion(const csmChar* group, csmInt32 no,csmInt32 priority, std::function<void()> &endcall ,bool loop = false);
 
 	void setOpcaity(float f);
@@ -89,6 +89,7 @@ private:
 	std::function<void(Touch* touches, ui::TouchEventType)> _TouchCall;//点击回调
 	std::function<void()> m_AniEndCall;//动画结束回调
 	bool m_AniLoop;
+	bool m_AniPlaying;
 	std::string m_CurAniGroup = "";
 	csmInt32 m_CurAniNum = 0;
 
